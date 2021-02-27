@@ -1,0 +1,139 @@
+@font-face {
+  font-family: "Karla";
+  src: url("./Karla-VariableFont_wght.ttf") format('truetype'),
+    url("./Karla-Italic-VariableFont_wght.ttf") format('truetype');
+  font-weight: 100 400 800;
+}
+
+html, body {
+  font-family: "Karla";
+  height: 100%;
+  margin: 0;
+}
+
+.container {
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.board {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-width: 50%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.sidebar {
+  flex-basis: 20%;
+  flex-grow: 1;
+  background-color: white;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidebar .sidebar-title {
+  color: #555555;
+  text-decoration: underline solid rgb(223, 208, 1) 4px;
+  text-align: left;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 5px 0px 5px 20px;
+}
+
+.sidebar .projects-container {
+  padding: 5px 0px 5px 20px;
+}
+
+.sidebar hr {
+  /* width: %; */
+  margin: 0.8rem;
+}
+
+.sidebar .project-item {
+  display: block;
+  text-decoration: none;
+  background-color: none;
+  background: none;
+  border: none;
+  color: #555555;
+  text-align: right;
+  font-size: 20px;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+}
+
+.sidebar .project-item:hover {
+  text-decoration: underline solid #555555 4px;
+  text-decoration-color: rgb(223, 208, 1);
+  padding-right: 25px;
+  transition: padding 0.5s;
+}
+
+.item {
+  background-color: #555555;
+  color: white;
+  width: 95%;
+  margin: 0.5rem;
+  display: flex;
+  justify-content: space-around;
+  border-radius: 3px;
+}
+
+.item-content {
+  display: flex;
+  width: 100%;
+  margin: 1rem;
+}
+
+.item-content > * {
+  margin: 0rem 1rem 0rem 0rem;
+}
+
+.item-content .date-form {
+  background: none;
+  color: white;
+  padding: 0;
+  border: none;
+  font-family: "Karla";
+  text-align: center;
+}
+
+.item-content .date-form::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  margin-left: 0px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end; 
+}
+
+.board .button-container {
+  width: 95%;
+  margin: 5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.new-item {
+  display: flex;
+  text-decoration: none;
+  background-color: #555555;
+  border: none;
+  color: white;
+  font-size: 20px;
+  padding: 0.5rem 1rem;
+  transition: all 0.5s;
+  cursor: pointer;
+  outline: none;
+  border-radius: 3px;
+}
+
+.new-item:hover {
+  background-color:rgb(223, 208, 1);
+}
