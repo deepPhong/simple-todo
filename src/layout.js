@@ -1,71 +1,85 @@
 import { Item, Project } from "./components.js"
+import { addProjectToList } from "./logic.js"
 
-export const createSidebar = () => {
+export const renderSidebar = (projectList) => {
   const sidebar = document.createElement("div");
   sidebar.classList.add("sidebar");
 
   const sidebarTitle = document.createElement("div");
   sidebarTitle.innerHTML = "todo projects";
   sidebarTitle.classList.add("sidebar-title")
-  sidebar.appendChild(sidebarTitle)
+  const line = document.createElement("hr");
+  sidebarTitle.append(line);
 
   const projects = document.createElement("div");
   projects.classList.add("projects-container");
 
-  const line = document.createElement("hr");
-
-  const inbox = document.createElement("button");
-  inbox.innerHTML = "INBOX";
-  inbox.classList.add("project-item");
-
-  sidebar.append(line);
-  sidebar.appendChild(inbox);
+  sidebar.appendChild(sidebarTitle)
   sidebar.appendChild(projects);
+  sidebar.append(newProjectButton(projectList))
 
-  return sidebar
+  let container = document.querySelector(".container");
+  container.appendChild(sidebar);
 }
 
-export const createBoard = () => {
-  const board = document.createElement("div");
+export const renderBoard = (projectList, projectId) => {
+  let board = document.createElement("div");
   board.classList.add("board");
+  board.dataset.project = projectId;
+  board.appendChild(newItemButton(projectList, projectId))
 
+  let container = document.querySelector(".container");
+  container.appendChild(board);
+  projectList[projectId].items.forEach((item) => {
+    renderItem(item);
+  })
   return board
 }
 
-export const createLayout = () => {
-  let layout = document.createElement("div");
-  layout.classList.add("container");
-
-  let sidebar = createSidebar();
-  layout.appendChild(sidebar);
-
-  let board = createBoard();
-  layout.appendChild(board);
-
-  return layout
+export const clearBoard = () => {
+  let board = document.querySelector(".board");
+  board.remove();
 }
 
-const clearProjects = () => {
+export const renderLayout = (projectList, defaultProjectId) => {
+  let container = document.querySelector(".container");
+  renderSidebar(projectList)
+
+  // let sidebar = renderSidebar(projectList);
+  // container.appendChild(sidebar);
+
+  let board = renderBoard(projectList, defaultProjectId);
+  container.appendChild(board);
+}
+
+export const clearProjects = () => {
   let projectContainer = document.querySelector(".projects-container");
   projectContainer.innerHTML = "";
 }
 
-const renderProjects = (projectList) => {
+export const renderProjects = (projectList) => {
   let projectContainer = document.querySelector(".projects-container");
-  projectList.forEach((project) => {
+  for (const projectId in projectList) {
     let projectEntry = document.createElement("button");
-    projectEntry.innerHTML = project.title;
+    projectEntry.innerHTML = projectId;
     projectEntry.classList.add("project-item");
     projectEntry.contentEditable = true;
     projectEntry.style.whiteSpace = "pre-wrap";
     projectEntry.classList.add("project-item");
+    projectEntry.addEventListener("click", () => {
+      let board = document.querySelector(".board");
+      if (board.dataset !== projectId) {
+        clearBoard();
+        let newBoard = renderBoard(projectList, projectId);
+        let layout = document.querySelector(".container");
+        layout.appendChild(newBoard);
+      }
+    })
     projectContainer.appendChild(projectEntry);
-  })
+  }
 }
 
-export const createItem = () => {
-  let itemObject = new Item;
-
+export const renderItem = (itemObject) => {
   const item = document.createElement("div");
   item.classList.add("item");
   
@@ -89,10 +103,10 @@ export const createItem = () => {
   form.appendChild(title);
   form.appendChild(description);
   form.appendChild(dueDate);
-
   item.appendChild(form);
 
-  return item
+  let board = document.querySelector(".board");
+  board.appendChild(item);
 }
 
 export const newProjectButton = (projectList) => {
@@ -103,16 +117,50 @@ export const newProjectButton = (projectList) => {
   button.textContent = "new project";
   button.classList.add("new-item");
   button.addEventListener("click", () => {
-    let project = new Project;
-    projectList.push(project);
-    clearProjects();
-    renderProjects(projectList);
+    let container = document.querySelector(".container");
+
+    let lightbox = document.createElement("div");
+    lightbox.id = "lightbox";
+    container.appendChild(lightbox);
+
+    let form = document.createElement("form");
+    form.classList.add("project-form");
+    let title = document.createElement("input");
+    title.type = "text";
+    title.id = "project-title";
+    let submit = document.createElement("button");
+    submit.innerHTML = "create";
+    submit.classList.add("new-item");
+    submit.addEventListener("click", (e) => {
+      e.preventDefault()
+      addProjectToList(projectList, document.querySelector("#project-title").value);
+      clearProjects();
+      renderProjects(projectList);
+      let lightbox = document.querySelector("#lightbox");
+      lightbox.remove();
+      let dimmer = document.querySelector(".dimmer");
+      dimmer.remove();
+    })
+    form.appendChild(title);
+    form.appendChild(submit);
+    lightbox.appendChild(form);
+
+    let dimmer = document.createElement("div");
+    dimmer.className = 'dimmer';
+
+    dimmer.onclick = function(){
+      container.removeChild(this);
+      let lightbox = document.querySelector("#lightbox");
+      lightbox.remove();
+    }
+    container.appendChild(dimmer);
+    lightbox.style.visibility = 'visible';
   });
 
   return projectButtonContainer
 }
 
-export const newItemButton = () => {
+export const newItemButton = (projectList, projectId) => {
   const itemButtonContainer = document.createElement("div");
   itemButtonContainer.classList.add("button-container");
   const button = document.createElement("button");
@@ -120,9 +168,10 @@ export const newItemButton = () => {
   button.textContent = "new task";
   button.classList.add("new-item");
   button.addEventListener("click", () => {
-    let item = createItem();
-    let board = document.querySelector(".board");
-    board.appendChild(item);
+    let item = new Item;
+    projectList[projectId].addItem(item);
+    clearBoard();
+    renderBoard(projectList, projectId);
   });
 
   return itemButtonContainer

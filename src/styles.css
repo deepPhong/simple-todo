@@ -50,11 +50,6 @@ html, body {
   padding: 5px 0px 5px 20px;
 }
 
-.sidebar hr {
-  /* width: %; */
-  margin: 0.8rem;
-}
-
 .sidebar .project-item {
   display: block;
   text-decoration: none;
@@ -136,4 +131,32 @@ html, body {
 
 .new-item:hover {
   background-color:rgb(223, 208, 1);
+}
+
+.project-form .new-item {
+  display: inline-block;
+  font-size: 15px;
+  padding: 0.3rem 0.7rem;
+}
+
+#lightbox{
+  visibility:hidden;
+  position:absolute;
+  background: white;
+  border-radius: 3px;
+  color:white;
+  z-index:100;
+  padding:20px;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.dimmer{
+  background: #000;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  opacity: .5;
+  z-index:99;
 }

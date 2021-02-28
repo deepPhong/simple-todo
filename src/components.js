@@ -1,4 +1,5 @@
 import { format } from 'date-fns'
+import { clearProjects, renderProjects } from './layout.js';
 
 export class Item {
   title = "Name";
@@ -16,14 +17,6 @@ export class Project {
   title = "Project";
   description = "Description";
   items = [];
-
-  set title(text) {
-    return text
-  }
-
-  set description(text) {
-    return text
-  }
 
   addItem = (item) => {
     this.items.push(item);

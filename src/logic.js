@@ -1,23 +1,30 @@
 import { Item, Project } from './components.js';
 import { 
-  createSidebar, 
-  createBoard, 
-  createLayout, 
-  createProject, 
-  renderProjects, 
+  renderLayout, 
+  renderProjects,
+  clearProjects,
   newProjectButton, 
-  newItemButton 
+  newItemButton
 } from './layout.js';
 
 export const initPage = () => {
-  let layout = createLayout()
-  document.body.appendChild(layout)
 
-  let projectList = [];
+  let container = document.createElement("div");
+  container.classList.add("container");
+  document.body.appendChild(container)
 
-  let sidebar = document.querySelector(".sidebar");
-  sidebar.append(newProjectButton(projectList))
+  let projectList = {};
+  addProjectToList(projectList, "Inbox");
+  renderLayout(projectList, "Inbox")
+  renderProjects(projectList);
 
-  let board = document.querySelector(".board");
-  board.appendChild(newItemButton());
+  // let sidebar = document.querySelector(".sidebar");
+  // sidebar.append(newProjectButton(projectList))
+}
+
+export const addProjectToList = (projectList, title) => {
+  let project = new Project();
+  project.title = title;
+  project.id = title;
+  projectList[title] = project;
 }
