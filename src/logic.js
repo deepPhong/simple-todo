@@ -11,6 +11,8 @@ export const initPage = () => {
   addProjectToList(projectList, "Inbox");
   renderLayout(projectList, "Inbox");
   renderProjects(projectList);
+  let inbox = document.querySelector(".project-item");
+  inbox.style.textDecoration = "underline solid rgb(223, 208, 1) 4px";
 }
 
 export const addProjectToList = (projectList, title) => {

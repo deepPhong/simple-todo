@@ -79,7 +79,7 @@ html, body {
   background-color: #555555;
   color: white;
   width: 95%;
-  margin: 0.5rem;
+  margin-top: 1rem;
   display: flex;
   justify-content: space-around;
   border-radius: 3px;
@@ -124,11 +124,15 @@ html, body {
   width: 12px;
 }
 
-.item-content input[type="checkbox"]:checked {
+.item-content input[type="checkbox"]:hover {
   background-color: rgb(223, 208, 1);
   border-color: rgb(223, 208, 1);
 }
 
+.item-content input[type="checkbox"]:checked {
+  background-color: rgb(223, 208, 1);
+  border-color: rgb(223, 208, 1);
+}
 
 .item-content .date-form {
   background: none;
@@ -137,6 +141,7 @@ html, body {
   border: none;
   font-family: "Karla";
   text-align: center;
+  outline: none;
 }
 
 .item-content .date-form::-webkit-calendar-picker-indicator {
@@ -158,6 +163,22 @@ html, body {
   flex-grow: 1;
 }
 
+.item-content .item-delete {
+  font-family: "Karla";
+  background-color: #555555;
+  border: none;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  margin-right: 0;
+}
+
+.item-content .item-delete:hover {
+  color:rgb(223, 208, 1);
+}
+
 .button-container {
   display: flex;
   justify-content: flex-end; 
@@ -165,10 +186,11 @@ html, body {
 
 .board .button-container {
   width: 95%;
-  margin: 5rem 0.5rem 0.5rem 0.5rem;
+  margin: 1rem 0.5rem 0.5rem 0.5rem;
+  justify-content: flex-start; 
 }
 
-.new-item {
+.new-button {
   display: flex;
   text-decoration: none;
   background-color: #555555;
@@ -180,16 +202,18 @@ html, body {
   cursor: pointer;
   outline: none;
   border-radius: 3px;
+  margin: 0.25rem 0rem 0.25rem 0rem;
 }
 
-.new-item:hover {
+.new-button:hover {
   background-color:rgb(223, 208, 1);
 }
 
-.project-form .new-item {
+.project-form .new-button {
   display: inline-block;
   font-size: 15px;
   padding: 0.3rem 0.7rem;
+  margin: 0;
 }
 
 #lightbox{

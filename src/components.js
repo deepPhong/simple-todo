@@ -5,6 +5,7 @@ export class Item {
   description = "Description";
   dueDate = format(new Date(), 'yyyy-MM-dd');
   priority;
+  index;
   checked = false;
 
   toggleChecked = () => {
@@ -15,13 +16,21 @@ export class Item {
 export class Project {
   title = "Project";
   description = "Description";
-  items = [];
+  items = {};
+  counter = 0;
+  selected = false;
 
   addItem = (item) => {
-    this.items.push(item);
+    item.index = this.counter;
+    this.items[this.counter] = item;
+    this.counter += 1;
   }
 
-  removeItem = (itemIndex) => {
-    this.items.splice(itemIndex, 1)
+  removeItem = (item) => {
+    delete this.items[item.index];
+  }
+
+  toggleSelected = () => {
+    this.selected = this.selected === true? false: true;
   }
 } 
