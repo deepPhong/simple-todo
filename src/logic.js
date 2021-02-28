@@ -1,25 +1,16 @@
-import { Item, Project } from './components.js';
-import { 
-  renderLayout, 
-  renderProjects,
-  clearProjects,
-  newProjectButton, 
-  newItemButton
-} from './layout.js';
+import { Project } from './components.js';
+import { renderLayout, renderProjects } from './layout.js';
 
 export const initPage = () => {
 
   let container = document.createElement("div");
   container.classList.add("container");
-  document.body.appendChild(container)
+  document.body.appendChild(container);
 
   let projectList = {};
   addProjectToList(projectList, "Inbox");
-  renderLayout(projectList, "Inbox")
+  renderLayout(projectList, "Inbox");
   renderProjects(projectList);
-
-  // let sidebar = document.querySelector(".sidebar");
-  // sidebar.append(newProjectButton(projectList))
 }
 
 export const addProjectToList = (projectList, title) => {

@@ -1,4 +1,4 @@
-import { Item, Project } from "./components.js"
+import { Item } from "./components.js"
 import { addProjectToList } from "./logic.js"
 
 export const renderSidebar = (projectList) => {
@@ -6,10 +6,10 @@ export const renderSidebar = (projectList) => {
   sidebar.classList.add("sidebar");
 
   const sidebarTitle = document.createElement("div");
-  sidebarTitle.innerHTML = "todo projects";
+  sidebarTitle.innerHTML = "simple todo";
   sidebarTitle.classList.add("sidebar-title")
   const line = document.createElement("hr");
-  sidebarTitle.append(line);
+  sidebarTitle.appendChild(line);
 
   const projects = document.createElement("div");
   projects.classList.add("projects-container");
@@ -31,9 +31,20 @@ export const renderBoard = (projectList, projectId) => {
   let container = document.querySelector(".container");
   container.appendChild(board);
   projectList[projectId].items.forEach((item) => {
-    renderItem(item);
+    if (item.checked === false) {
+      renderItem(item, projectList, projectId);
+    }
   })
-  return board
+
+  let bottomline = document.createElement("hr");
+  bottomline.style.width = "95%";
+  board.appendChild(bottomline);
+
+  projectList[projectId].items.forEach((item) => {
+    if (item.checked === true) {
+      renderItem(item, projectList, projectId);
+    }
+  })
 }
 
 export const clearBoard = () => {
@@ -42,19 +53,8 @@ export const clearBoard = () => {
 }
 
 export const renderLayout = (projectList, defaultProjectId) => {
-  let container = document.querySelector(".container");
   renderSidebar(projectList)
-
-  // let sidebar = renderSidebar(projectList);
-  // container.appendChild(sidebar);
-
-  let board = renderBoard(projectList, defaultProjectId);
-  container.appendChild(board);
-}
-
-export const clearProjects = () => {
-  let projectContainer = document.querySelector(".projects-container");
-  projectContainer.innerHTML = "";
+  renderBoard(projectList, defaultProjectId);
 }
 
 export const renderProjects = (projectList) => {
@@ -68,31 +68,53 @@ export const renderProjects = (projectList) => {
     projectEntry.classList.add("project-item");
     projectEntry.addEventListener("click", () => {
       let board = document.querySelector(".board");
-      if (board.dataset !== projectId) {
+      if (board.dataset.project !== projectId) {
         clearBoard();
-        let newBoard = renderBoard(projectList, projectId);
-        let layout = document.querySelector(".container");
-        layout.appendChild(newBoard);
+        renderBoard(projectList, projectId);
       }
     })
     projectContainer.appendChild(projectEntry);
   }
 }
 
-export const renderItem = (itemObject) => {
+export const clearProjects = () => {
+  let projectContainer = document.querySelector(".projects-container");
+  projectContainer.innerHTML = "";
+}
+
+export const renderItem = (itemObject, projectList, projectId) => {
   const item = document.createElement("div");
   item.classList.add("item");
+
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.classList.add("checkbox");
+  checkbox.checked = itemObject.checked;
+  checkbox.addEventListener("change", () => {
+    itemObject.toggleChecked();
+    clearBoard();
+    renderBoard(projectList, projectId)
+  })
   
   const form = document.createElement("div");
   form.classList.add("item-content");
 
-  const title = document.createElement("div");
-  title.innerHTML = itemObject.title;
-  title.contentEditable = true;
+  const title = document.createElement("input");
+  title.type = "text";
+  title.value = itemObject.title;
+  title.classList.add("item-input");
+  title.addEventListener("change", () => {
+    itemObject.title = title.value;
+  })
 
-  const description = document.createElement("div");
-  description.innerHTML = itemObject.description;
-  description.contentEditable = true;
+  const description = document.createElement("input");
+  description.type = "text";
+  description.value = itemObject.description;
+  description.classList.add("item-input");
+  description.classList.add("item-description");
+  description.addEventListener("change", () => {
+    itemObject.description = description.value;
+  })
 
   const dueDate = document.createElement("input");
   dueDate.type = "date";
@@ -100,6 +122,12 @@ export const renderItem = (itemObject) => {
   dueDate.value = itemObject.dueDate;
   dueDate.classList.add("date-form");
 
+  if (itemObject.checked === true) {
+    title.style.textDecoration = "line-through solid rgb(223, 208, 1) 4px";
+    description.style.textDecoration = "line-through solid rgb(223, 208, 1) 4px";
+  }
+
+  form.appendChild(checkbox);
   form.appendChild(title);
   form.appendChild(description);
   form.appendChild(dueDate);
@@ -128,6 +156,7 @@ export const newProjectButton = (projectList) => {
     let title = document.createElement("input");
     title.type = "text";
     title.id = "project-title";
+    title.classList.add("project-input");
     let submit = document.createElement("button");
     submit.innerHTML = "create";
     submit.classList.add("new-item");

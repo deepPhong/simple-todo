@@ -11,6 +11,10 @@ html, body {
   margin: 0;
 }
 
+/* hr {
+  border: 0.5px solid #555555;
+} */
+
 .container {
   overflow: hidden;
   height: 100%;
@@ -58,7 +62,7 @@ html, body {
   border: none;
   color: #555555;
   text-align: right;
-  font-size: 20px;
+  font-size: 25px;
   width: 100%;
   cursor: pointer;
   outline: none;
@@ -85,11 +89,46 @@ html, body {
   display: flex;
   width: 100%;
   margin: 1rem;
+  justify-content: flex-start;
 }
 
 .item-content > * {
   margin: 0rem 1rem 0rem 0rem;
 }
+
+.item-content .checkbox {
+  position: relative;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  top: 50%;
+  transform: translate(-0%, -50%);
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.item-content .checkbox:after {
+  border: 2px solid #fff;
+  border-top: none;
+  border-right: none;
+  content: "";
+  height: 6px;
+  left: 7px;
+  opacity: 0;
+  position: relative;
+  top: 8px;
+  transform: rotate(-45deg);
+  width: 12px;
+}
+
+.item-content input[type="checkbox"]:checked {
+  background-color: rgb(223, 208, 1);
+  border-color: rgb(223, 208, 1);
+}
+
 
 .item-content .date-form {
   background: none;
@@ -103,6 +142,20 @@ html, body {
 .item-content .date-form::-webkit-calendar-picker-indicator {
   filter: invert(1);
   margin-left: 0px;
+}
+
+.item-content .item-input {
+  font-family: "Karla";
+  font-size: 15px;
+  outline: 0;
+  border-width: 0 0 1px;
+  border-color: white;
+  background: none;
+  color: white;
+}
+
+.item-content .item-description {
+  flex-grow: 1;
 }
 
 .button-container {
@@ -159,4 +212,13 @@ html, body {
   width: 100%;
   opacity: .5;
   z-index:99;
+}
+
+.project-form .project-input {
+  display: inline-block;
+  font-family: "Karla";
+  line-height: 15px;
+  margin-right: 1rem;
+  outline: 0;
+  border-width: 0 0 1px;
 }

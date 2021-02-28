@@ -1,5 +1,4 @@
 import { format } from 'date-fns'
-import { clearProjects, renderProjects } from './layout.js';
 
 export class Item {
   title = "Name";
@@ -9,7 +8,7 @@ export class Item {
   checked = false;
 
   toggleChecked = () => {
-    this.checked = true? false: true;
+    this.checked = this.checked === true? false: true;
   }
 }
 
